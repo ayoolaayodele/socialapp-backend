@@ -23,7 +23,7 @@ const router = express.Router();
 // Note: postController destructured
 // Note: validator destructured from validator
 
-router.get('/posts', getPosts);
+router.get('/api/posts', getPosts);
 router.post(
   '/post/new/:userId',
   requireSignin,
