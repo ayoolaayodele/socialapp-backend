@@ -22,6 +22,18 @@ mongoose.connection.on('error', (err) => {
   console.log(`DB connection error: ${err.message}`);
 });
 
+app.use(function (req, res, next) {
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://backendinteract.herokuapp.com/'
+  ); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
 // bring in routes
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/auth');
@@ -37,11 +49,11 @@ app.use('/api', postRoutes);
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 
-// app.use(function (err, req, res, next) {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401).json({ error: 'Unauthorized!' });
-//   }
-// });
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({ error: 'Unauthorized!' });
+  }
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
