@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -54,6 +53,10 @@ app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     res.status(401).json({ error: 'Unauthorized!' });
   }
+});
+
+app.listen(80, function () {
+  console.log('CORS-enabled web-server listening on port 80');
 });
 
 const port = process.env.PORT || 8080;
